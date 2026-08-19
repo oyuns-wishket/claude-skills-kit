@@ -1,0 +1,22 @@
+{
+  "version": 1,
+  "description": "이 레포 → 로컬 에이전트 환경 심볼릭 링크 매핑. bootstrap.sh가 이 파일을 읽어 적용한다.",
+  "_settings_note": "settings.json은 통째로 링크하지 않는다(각 머신 고유 설정·토큰 보존). bootstrap이 global/governance-hooks.json만 기존 settings.json에 병합한다.",
+  "_skills_note": "스킬은 manifest에 개별 등록하지 않는다. bootstrap이 skills/* 를 Claude(~/.claude/skills)와 Codex(~/.agents/skills) 양쪽에 자동으로 링크한다. SKILL.md는 공개 표준이라 어댑터가 필요 없다.",
+  "links": [
+    {
+      "repo": "global/CLAUDE.md",
+      "target": "~/.codex/AGENTS.md",
+      "type": "file",
+      "note": "Claude와 동일한 글로벌 규칙을 Codex에도 그대로 적용."
+    }
+  ],
+  "imports": [
+    {
+      "into": "~/.claude/CLAUDE.md",
+      "import_repo": "global/CLAUDE.md",
+      "marker": "AGENT-RULES",
+      "note": "기존 CLAUDE.md를 덮지 않고, 마커로 감싼 @import 한 줄만 멱등하게 주입한다."
+    }
+  ]
+}
