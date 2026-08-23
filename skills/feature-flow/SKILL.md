@@ -1,12 +1,17 @@
 ---
 name: feature-flow
-description: Use when starting any feature/fix/dev work on a project that uses git + Supabase + Vercel — sets up an isolated branch dev environment (git branch → Supabase preview DB branch → Vercel preview URL) so you develop/test on the branch, then merge on completion. Triggers on "feature-flow", "기능 작업 시작", "브랜치 따서 개발", "개발환경 브랜치", "feat 시작", "샌드박스 개발", "이 기능 작업할게". 운영(main) 안 건드리고 격리 환경에서 작업. 플랫폼 연동이 무거운 자동, 에이전트는 브랜치·PR·머지만.
+description: Use when starting feature/fix/dev work on a project that uses git + Supabase + Vercel — normally creates an isolated git branch, Supabase Preview DB, and Vercel Preview, and defers to project rules that select a shared development DB. Triggers on "feature-flow", "기능 작업 시작", "브랜치 따서 개발", "개발환경 브랜치", "feat 시작", "샌드박스 개발", "이 기능 작업할게". 운영(main)은 직접 변경하지 않는다.
 ---
 
 # feature-flow — 브랜치 개발환경 (git × Supabase × Vercel)
 
 ## Overview
 기능/수정 작업을 **운영(main) 안 건드리고 격리된 브랜치 환경**에서 한다. **플랫폼이 무거운 일을 자동으로** 한다 — 에이전트는 브랜치 따고 PR 열고 머지만 하면, Supabase가 격리 DB 브랜치를, Vercel이 프리뷰 URL을 자동 생성하고 env까지 연결한다.
+
+## 프로젝트 예외를 먼저 확인
+
+작업 전 프로젝트 `AGENTS.md`와 인프라 정본을 읽는다. 프로젝트가 shared development DB를
+명시하면 아래 Supabase Preview Branch 절차보다 프로젝트 정책이 우선한다.
 
 **브랜치 모델 (aidp 표준): `develop → feat/<x> → develop 머지 → main 머지(배포)`**
 ```

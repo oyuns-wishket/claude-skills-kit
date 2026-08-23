@@ -1,6 +1,27 @@
 {
   "hooks": {
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
+            "timeout": 5
+          }
+        ]
+      }
+    ],
     "PreToolUse": [
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
+            "timeout": 5
+          }
+        ]
+      },
       {
         "matcher": "Bash",
         "hooks": [
@@ -92,6 +113,15 @@
         "hooks": [
           {
             "type": "command",
+            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
+            "timeout": 10
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
             "command": "$HOME/.claude/hooks/handoff-sync.sh",
             "timeout": 25
           }
@@ -103,17 +133,6 @@
             "type": "command",
             "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
             "timeout": 10
-          }
-        ]
-      }
-    ],
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
-            "timeout": 5
           }
         ]
       }
