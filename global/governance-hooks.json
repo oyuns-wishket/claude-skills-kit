@@ -20,6 +20,16 @@
             "timeout": 5
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
+            "timeout": 5
+          }
+        ]
       }
     ],
     "PostToolUse": [
@@ -84,6 +94,26 @@
             "type": "command",
             "command": "$HOME/.claude/hooks/handoff-sync.sh",
             "timeout": 25
+          }
+        ]
+      },
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
+            "timeout": 10
+          }
+        ]
+      }
+    ],
+    "UserPromptSubmit": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "node $HOME/.claude/hooks/dev-resource-guard.mjs",
+            "timeout": 5
           }
         ]
       }

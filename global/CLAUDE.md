@@ -42,6 +42,14 @@
 ### 마이그레이션 안전 (Supabase 등)
 - DB 마이그레이션은 되돌릴 수 없다. **`--dry-run`으로 diff 확인 → 사용자 승인 → 실제 적용** 순서만 허용한다.
 
+### Docker는 띄운 세션이 끝낼 때 반드시 내린다
+- Docker Desktop VM은 컨테이너를 모두 껐어도 램 수 GB를 계속 물고 있다. "컨테이너만 stop"으로는 부족하다.
+- 작업 중 컨테이너를 띄웠으면(`docker run` / `docker start` / `docker compose up` 등) **그 작업 단위가 끝나는 시점에 같은 세션에서 되돌린다**: `docker compose down`. volume은 삭제하지 않는다.
+- 세션 종료 시 그 세션이 띄운 컨테이너가 남아 있으면 안 된다. 정리 후 **실행 중 컨테이너가 하나도 없으면 Docker Desktop 자체도 종료**한다 — `docker desktop stop --detach --force`, 폴백 `osascript -e 'quit app "Docker"'`.
+- **남의 것은 끄지 않는다.** 다른 세션·사람이 쓰고 있는 컨테이너는 유지한다.
+- 새로 띄우기 전에 이미 떠 있는 것을 먼저 본다(`docker ps -a`). `Restarting` 루프에 빠진 컨테이너는 램·CPU만 태우므로 즉시 `docker rm -f`로 제거한다.
+- `dev-resource-guard` 훅이 이 절차를 세션 종료 시 자동 수행한다(정리는 detach된 프로세스라 세션 종료를 지연시키지 않는다). 일시적으로 막으려면 `AGENT_DOCKER_GUARD_KEEP=1`.
+
 ### HTML 결과물은 로컬 서버 URL로 열어준다
 - HTML 결과물(슬라이드, 리포트, 대시보드 등)을 보여줄 때 `open`에만 의존하지 않는다 —
   `open`은 세션이 도는 머신 화면에만 뜨고, 사용자는 다른 기기에 있을 수 있다.

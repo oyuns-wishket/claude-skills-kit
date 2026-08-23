@@ -159,10 +159,10 @@ done
 if [ "$STATUS" != 1 ] && [ "$DRY" != 1 ]; then
   say "$c_act" "▶ 훅 설치"
   mkdir -p "$HOME/.claude/hooks"
-  if cp "$REPO_DIR"/hooks/*.sh "$HOME/.claude/hooks/" 2>/dev/null; then
-    chmod +x "$HOME"/.claude/hooks/*.sh 2>/dev/null || true
-    say "$c_ok" "  훅 $(ls "$REPO_DIR"/hooks/*.sh 2>/dev/null | wc -l | tr -d ' ')개 설치"
-  fi
+  cp "$REPO_DIR"/hooks/*.sh "$HOME/.claude/hooks/" 2>/dev/null || true
+  cp "$REPO_DIR"/hooks/*.mjs "$HOME/.claude/hooks/" 2>/dev/null || true
+  chmod +x "$HOME"/.claude/hooks/*.sh "$HOME"/.claude/hooks/*.mjs 2>/dev/null || true
+  say "$c_ok" "  훅 $(ls "$REPO_DIR"/hooks/ 2>/dev/null | wc -l | tr -d " ")개 설치"
 
   # settings.json: 훅 정의만 병합(통째 교체 X — 각 머신 고유 설정·토큰 보존). command 기준 dedup.
   GOV="$REPO_DIR/global/governance-hooks.json"; SET="$HOME/.claude/settings.json"
